@@ -18,7 +18,7 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @PostMapping("/{id}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonResponse createPerson(@Valid @RequestBody PersonRequest request) {
         return personService.createPerson(request);
@@ -41,4 +41,6 @@ public class PersonController {
     public List<PersonResponse> getAllPersons() {
         return personService.getAllPersons();
     }
+
+
 }

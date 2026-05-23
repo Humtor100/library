@@ -5,6 +5,8 @@ import com.kirito.library.dto.PersonResponse;
 import com.kirito.library.model.Person;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PersonMapper {
 
@@ -18,10 +20,10 @@ public class PersonMapper {
 
     public PersonResponse toResponse(Person person) {
         return new PersonResponse(
-                person.getId(),
+                person.getPersonId(),
                 person.getName(),
-                person.getBirthday()
+                person.getBirthday(),
+                person.getBooks()
         );
-
     }
 }

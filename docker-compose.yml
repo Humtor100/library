@@ -5,7 +5,7 @@ services:
     image: postgres:16
     container_name: library-postgres
     environment:
-      POSTGRES_DB: library_db
+      POSTGRES_DB: library
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
