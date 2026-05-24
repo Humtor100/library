@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.UUID;
 
-public record BookRequest(UUID bookId,
+public record BookRequest(
                           @NotBlank(message = "Поле title не может быть пустым")
                           @Size(min = 1, max = 100, message = "Длина title должна быть от 1 до 100 символов")
                           String title,
@@ -17,5 +17,5 @@ public record BookRequest(UUID bookId,
                           String author,
                           @Min(1000)
                           @Max(2026)
-                          Integer date) {
+                          Integer year) {
 }

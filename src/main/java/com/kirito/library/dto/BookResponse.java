@@ -7,7 +7,7 @@ public record BookResponse(
         UUID id,
         String title,
         String author,
-        Integer date,
+        Integer year,
         UUID ownerId,
         String ownerName,
         LocalDateTime takenAt

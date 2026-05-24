@@ -11,6 +11,7 @@ import com.kirito.library.repository.BookRepo;
 import com.kirito.library.repository.PersonRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,8 +51,8 @@ public class BookService {
             book.setTitle(bookRequest.title());
         }
 
-        if (bookRequest.date() != null) {
-            book.setDate(bookRequest.date());
+        if (bookRequest.year() != null) {
+            book.setYear(bookRequest.year());
         }
 
         Book saveBook = bookRepo.save(book);
@@ -79,12 +80,20 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public List<BookResponse> getAllBooks() {
-        return bookRepo.findAll()
-                .stream()
+    public List<BookResponse> getAllBooks(Integer page, Integer booksPerPage, boolean sortByYear) {
+        Sort sort = sortByYear ? Sort.by("year").ascending() : Sort.unsorted();
+
+        List<Book> books;
+
+        if (page != null && booksPerPage != null) {
+            books = bookRepo.findAll(PageRequest.of(page, booksPerPage, sort)).getContent();
+        } else {
+            books = bookRepo.findAll(sort);
+        }
+
+        return books.stream()
                 .map(bookMapper::toResponse)
                 .toList();
-
     }
 
     @Transactional
@@ -126,9 +135,14 @@ public class BookService {
         return bookMapper.toResponse(savedBook);
     }
 
+    private boolean isExpired(Book book) {
+        return book.getTakenAt() != null
+                && book.getTakenAt().isBefore(LocalDateTime.now().minusDays(10));
+    }
+
     @Transactional(readOnly = true)
-    public List<BookResponse> sortByDate() {
-        return bookRepo.findAll(Sort.by(Sort.Direction.DESC, "date"))
+    public List<BookResponse> searchBooks(String query) {
+        return bookRepo.findByTitleStartingWithIgnoreCase(query)
                 .stream()
                 .map(bookMapper::toResponse)
                 .toList();

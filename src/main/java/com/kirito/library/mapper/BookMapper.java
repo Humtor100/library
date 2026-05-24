@@ -13,7 +13,7 @@ public class BookMapper {
         return Book.builder()
                 .title(bookRequest.title())
                 .author(bookRequest.author())
-                .date(bookRequest.date())
+                .year(bookRequest.year())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class BookMapper {
                 book.getBookId(),
                 book.getTitle(),
                 book.getAuthor(),
-                book.getDate(),
+                book.getYear(),
                 owner != null ? owner.getPersonId() : null,
                 owner != null ? owner.getName() : null,
                 book.getTakenAt()

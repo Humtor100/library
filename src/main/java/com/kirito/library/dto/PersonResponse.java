@@ -6,7 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public record PersonResponse(UUID personId, String name, Integer birthday, List<Book> books)
-
-{
+public record PersonResponse(
+        UUID personId,
+        String name,
+        Integer birthYear,
+        List<BookShortResponse> books
+) {
 }

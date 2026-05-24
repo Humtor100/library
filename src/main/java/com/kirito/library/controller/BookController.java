@@ -2,10 +2,13 @@ package com.kirito.library.controller;
 
 import com.kirito.library.dto.BookRequest;
 import com.kirito.library.dto.BookResponse;
+import com.kirito.library.mapper.BookMapper;
+import com.kirito.library.repository.BookRepo;
 import com.kirito.library.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.UUID;
 public class BookController {
 
     private final BookService bookService;
+    private final BookRepo bookRepo;
+    private final BookMapper bookMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,8 +31,12 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookResponse> getAllBooks() {
-        return bookService.getAllBooks();
+    public List<BookResponse> getAllBooks(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(name = "books_per_page", required = false) Integer booksPerPage,
+            @RequestParam(name = "sort_by_year", required = false, defaultValue = "false") boolean sortByYear
+    ) {
+        return bookService.getAllBooks(page, booksPerPage, sortByYear);
     }
 
     @GetMapping("/{bookId}")
@@ -39,10 +48,10 @@ public class BookController {
     @PutMapping("/{bookId}")
     @ResponseStatus(HttpStatus.OK)
     public BookResponse updateBook(
-            @PathVariable UUID id,
+            @PathVariable UUID bookId,
             @Valid @RequestBody BookRequest request
     ) {
-        return bookService.updateBook(id, request);
+        return bookService.updateBook(bookId, request);
     }
 
     @DeleteMapping("/{bookId}")
@@ -66,9 +75,11 @@ public class BookController {
         return bookService.releaseBook(bookId);
     }
 
-    @GetMapping("/sort/{date}")
+
+
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookResponse> sortByDate() {
-        return bookService.sortByDate();
+    public List<BookResponse> searchBooks(@RequestParam String query) {
+        return bookService.searchBooks(query);
     }
 }

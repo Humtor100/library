@@ -24,12 +24,15 @@ public class Book {
 
     private String author;
 
-    private Integer date;
+    private Integer year;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "person_id")
     private Person owner;
 
     @Column(name = "taken_at")
     private LocalDateTime takenAt;
+
+    @Transient
+    private boolean expired;
 }
