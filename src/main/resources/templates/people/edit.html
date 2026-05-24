@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование человека</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница изменения человека</h1>
+<div class="subtitle">/people/{id}/edit</div>
+
+<form th:method="post"
+      th:action="@{/people/{id}/edit(id=${personId})}"
+      th:object="${person}">
+
+    <div class="form-row">
+        <label for="name">Введите ФИО:</label>
+        <input id="name" type="text" th:field="*{name}">
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="birthYear">Введите год рождения:</label>
+        <input id="birthYear" type="number" th:field="*{birthYear}">
+        <div class="error" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}"></div>
+    </div>
+
+    <button type="submit">Редактировать!</button>
+</form>
+
+<br>
+<a class="small-link" th:href="@{/people/{id}(id=${personId})}">Назад к человеку</a>
+
+</body>
+</html>

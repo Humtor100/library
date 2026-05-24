@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница книги</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница книги</h1>
+<div class="subtitle">/books/{id}</div>
+
+<div class="book-info">
+    <span th:text="${book.title + ', ' + book.author + ', ' + book.year}">
+        Психопатология обыденной жизни, Фрейд Зигмунд, 1904
+    </span>
+</div>
+
+<div th:if="${book.ownerId == null}">
+    <p class="book-info">Эта книга свободна. Кому назначить ее?</p>
+
+    <form th:action="@{/books/{id}/assign(id=${book.bookId})}" method="post">
+        <label for="personId">Выберите человека</label>
+
+        <select id="personId" name="personId">
+            <option th:each="person : ${people}"
+                    th:value="${person.personId}"
+                    th:text="${person.name}">
+                Иванов Иван Иванович
+            </option>
+        </select>
+
+        <button type="submit">Назначить книгу</button>
+    </form>
+</div>
+
+<div th:if="${book.ownerId != null}">
+    <p class="book-info">
+        Книга сейчас у:
+        <span th:text="${book.ownerName}">Алексеев Алексей Алексеевич</span>
+    </p>
+
+    <form th:action="@{/books/{id}/release(id=${book.bookId})}" method="post">
+        <button type="submit">Освободить книгу</button>
+    </form>
+</div>
+
+<hr>
+
+<div class="actions">
+    <form th:action="@{/books/{id}/edit(id=${book.bookId})}" method="get">
+        <button type="submit">Редактировать</button>
+    </form>
+
+    <form th:action="@{/books/{id}/delete(id=${book.bookId})}" method="post">
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+
+<br>
+<a class="small-link" th:href="@{/books}">Назад к списку книг</a>
+
+</body>
+</html>

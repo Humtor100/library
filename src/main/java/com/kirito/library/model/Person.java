@@ -24,7 +24,7 @@ public class Person {
     @Column(unique = true, nullable = false, length = 100)
     private String name;
 
-    private Integer birthday;
+    private Integer birthYear;
 
     @Builder.Default
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)

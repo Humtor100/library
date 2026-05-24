@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск книг</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница поиска</h1>
+<div class="subtitle">/books/search</div>
+
+<form th:method="get" th:action="@{/books/search}">
+    <label for="query">Введите поисковой запрос:</label>
+    <input id="query" type="text" name="query" th:value="${query}">
+    <button type="submit">Искать!</button>
+</form>
+
+<div th:if="${searchPerformed}">
+    <div th:if="${books == null or #lists.isEmpty(books)}">
+        <p class="search-result">Книг не найдено</p>
+    </div>
+
+    <div th:if="${books != null and !#lists.isEmpty(books)}">
+        <div class="search-result" th:each="book : ${books}">
+            <p>
+                <a th:href="@{/books/{id}(id=${book.bookId})}"
+                   th:text="${book.title + ', ' + book.author + ', ' + book.year}">
+                    Философия Java, Брюс Эккель, 2018
+                </a>
+            </p>
+
+            <p th:if="${book.ownerId != null}">
+                Книга сейчас у:
+                <span th:text="${book.ownerName}">Федоров Мирон Янович</span>
+            </p>
+
+            <p th:if="${book.ownerId == null}">
+                Книга свободна
+            </p>
+
+            <hr>
+        </div>
+    </div>
+</div>
+
+<br>
+<a class="small-link" th:href="@{/books}">Назад к списку книг</a>
+
+</body>
+</html>

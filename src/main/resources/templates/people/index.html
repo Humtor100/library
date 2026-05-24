@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Люди</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница со списком всех людей</h1>
+<div class="subtitle">/people</div>
+
+<div class="list">
+    <div class="list-item" th:each="person : ${people}">
+        <a th:href="@{/people/{id}(id=${person.personId})}"
+           th:text="${person.name + ', ' + person.birthYear}">
+            Иванов Иван Иванович, 1970
+        </a>
+    </div>
+</div>
+
+<hr>
+
+<a th:href="@{/people/new}">Добавить человека</a>
+<br><br>
+<a class="small-link" th:href="@{/books}">Перейти к книгам</a>
+
+</body>
+</html>

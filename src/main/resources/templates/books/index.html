@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница со списком всех книг</h1>
+<div class="subtitle">/books</div>
+
+<div>
+    <a class="small-link" th:href="@{/books/search}">Поиск книг</a>
+    |
+    <a class="small-link" th:href="@{/books(sort_by_year=true)}">Сортировать по году</a>
+    |
+    <a class="small-link" th:href="@{/books(page=0, books_per_page=3)}">Пагинация: 1 страница</a>
+</div>
+
+<div class="list">
+    <div class="list-item" th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.bookId})}"
+           th:text="${book.title + ', ' + book.author + ', ' + book.year}">
+            Философия Java, Брюс Эккель, 2018
+        </a>
+    </div>
+</div>
+
+<hr>
+
+<a th:href="@{/books/new}">Добавить книгу</a>
+<br><br>
+<a class="small-link" th:href="@{/people}">Перейти к людям</a>
+
+</body>
+</html>

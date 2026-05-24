@@ -9,6 +9,6 @@ public record PersonRequest (
                              @NotNull(message = "Год рождения обязателен")
                              @Min(1900)
                              @Max(2026)
-                             Integer birthday) {
+                             Integer birthYear) {
 
 }

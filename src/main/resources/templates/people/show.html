@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница человека</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Страница человека</h1>
+<div class="subtitle">/people/{id}</div>
+
+<div class="person-info">
+    <span th:text="${person.name + ', ' + person.birthYear}">
+        Федоров Мирон Янович, 1985
+    </span>
+</div>
+
+<div th:if="${person.books == null or #lists.isEmpty(person.books)}">
+    <p class="book-info">Человек пока не взял ни одной книги</p>
+</div>
+
+<div th:if="${person.books != null and !#lists.isEmpty(person.books)}">
+    <hr>
+    <h2>Книги:</h2>
+
+    <div th:each="book : ${person.books}">
+        <div th:classappend="${book.expired} ? 'danger' : ''">
+            <span th:text="${book.title + ', ' + book.author + ', ' + book.year}">
+                День опричника, Владимир Сорокин, 2006
+            </span>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="actions">
+    <form th:action="@{/people/{id}/edit(id=${person.personId})}" method="get">
+        <button type="submit">Редактировать</button>
+    </form>
+
+    <form th:action="@{/people/{id}/delete(id=${person.personId})}" method="post">
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+
+<br>
+<a class="small-link" th:href="@{/people}">Назад к списку людей</a>
+
+</body>
+</html>

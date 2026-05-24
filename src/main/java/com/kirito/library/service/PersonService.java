@@ -39,8 +39,8 @@ public class PersonService {
             person.setName(request.name());
         }
 
-        if (request.birthday() != null) {
-            person.setBirthday(request.birthday());
+        if (request.birthYear() != null) {
+            person.setBirthYear(request.birthYear());
         }
 
         Person savePerson = personRepo.save(person);
